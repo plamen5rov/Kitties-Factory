@@ -51,8 +51,67 @@ function eyeVariation(num) {
             normalEyes()
             $('#eyeName').html('Basic')
             break
+        case 2:
+            normalEyes()
+            $('#eyeName').html('Chill')
+            return eyesType1()
+            break
+        case 3:
+            normalEyes()
+            $('#eyeName').html('Shy')
+            return eyesType2()
+            break
+        case 4:
+            normalEyes()
+            $('#eyeName').html('Left')
+            return eyesType3()
+            break
+        case 5:
+            normalEyes()
+            $('#eyeName').html('Right')
+            return eyesType4()
+            break
+        case 6:
+            normalEyes()
+            $('#eyeName').html('Sparky')
+            return eyesType5()
+            break
+        case 7:
+            normalEyes()
+            $('#eyeName').html('Hypno')
+            return eyesType6()
+            break
     }
 }
+
+function normalEyes() {
+    $('.cat__eye').find('span').css('border', 'none')
+}
+
+function eyesType1() {
+    $('.cat__eye').find('span').css('border-top', '15px solid')
+}
+
+function eyesType2() {
+    $('.cat__eye').find('span').css('border-bottom', '15px solid')
+}
+
+function eyesType3() {
+    $('.cat__eye').find('span').css('border-left', '15px solid')
+}
+
+function eyesType4() {
+    $('.cat__eye').find('span').css('border-right', '15px solid')
+}
+
+function eyesType5() {
+    $('.cat__eye').find('span').css('border-top', '8px solid')
+}
+
+function eyesType6() {
+    $('.cat__eye').find('span').css('border-bottom', '8px solid')
+}
+
 
 function decorationVariation(num) {
     $('#dnadecoration').html(num)
