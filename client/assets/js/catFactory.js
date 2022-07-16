@@ -39,7 +39,17 @@ function earsColor(color,code) {
     $('#dnaears').html(code) //This updates the body color part of the DNA that is displayed below the cat
 }
 
+function decorationMidcolor(color,code) {
+    $('.cat__head-dots').css('background', '#' + color)  //This changes the color of the cat
+    $('#decorationMidCode').html('code: '+code) //This updates text of the badge next to the slider
+    $('#dnadecorationMid').html(code) //This updates the body color part of the DNA that is displayed below the cat
+}
 
+function decorationSidescolor(color,code) {
+    $('.cat__head-dots_first, .cat__head-dots_second').css('background', '#' + color)  //This changes the color of the cat
+    $('#decorationSidesCode').html('code: '+code) //This updates text of the badge next to the slider
+    $('#dnadecorationSides').html(code) //This updates the body color part of the DNA that is displayed below the cat
+}
 //###################################################
 //Functions below will be used later on in the project
 //###################################################
@@ -120,17 +130,61 @@ function decorationVariation(num) {
             $('#decorationName').html('Basic')
             normaldecoration()
             break
+        case 2:
+            $('#decorationName').html('15 deg')
+            decoration2()
+            break
+        case 3:
+            $('#decorationName').html('20 deg')
+            decoration3()
+            break
+        case 4:
+            $('#decorationName').html('25 deg')
+            decoration4()
+            break
+        case 5:
+            $('#decorationName').html('30 deg')
+            decoration5()
+            break
     }
 }
 
-async function normalEyes() {
-    await $('.cat__eye').find('span').css('border', 'none')
-}
+// async function normalEyes() {
+//     await $('.cat__eye').find('span').css('border', 'none')
+// }
 
-async function normaldecoration() {
+function normaldecoration() {
     //Remove all style from other decorations
     //In this way we can also use normalDecoration() to reset the decoration style
     $('.cat__head-dots').css({ "transform": "rotate(0deg)", "height": "48px", "width": "14px", "top": "1px", "border-radius": "0 0 50% 50%" })
     $('.cat__head-dots_first').css({ "transform": "rotate(0deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "50% 0 50% 50%" })
     $('.cat__head-dots_second').css({ "transform": "rotate(0deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "0 50% 50% 50%" })
+}
+
+function decoration2() {
+    
+    $('.cat__head-dots').css({ "transform": "rotate(15deg)", "height": "48px", "width": "14px", "top": "1px", "border-radius": "0 0 50% 50%" })
+    $('.cat__head-dots_first').css({ "transform": "rotate(15deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "50% 0 50% 50%" })
+    $('.cat__head-dots_second').css({ "transform": "rotate(15deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "0 50% 50% 50%" })
+}
+
+function decoration3() {
+    
+    $('.cat__head-dots').css({ "transform": "rotate(20deg)", "height": "48px", "width": "14px", "top": "1px", "border-radius": "0 0 50% 50%" })
+    $('.cat__head-dots_first').css({ "transform": "rotate(20deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "50% 0 50% 50%" })
+    $('.cat__head-dots_second').css({ "transform": "rotate(20deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "0 50% 50% 50%" })
+}
+
+function decoration4() {
+    
+    $('.cat__head-dots').css({ "transform": "rotate(25deg)", "height": "48px", "width": "14px", "top": "1px", "border-radius": "0 0 50% 50%" })
+    $('.cat__head-dots_first').css({ "transform": "rotate(25deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "50% 0 50% 50%" })
+    $('.cat__head-dots_second').css({ "transform": "rotate(25deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "0 50% 50% 50%" })
+}
+
+function decoration5() {
+    
+    $('.cat__head-dots').css({ "transform": "rotate(30deg)", "height": "48px", "width": "14px", "top": "1px", "border-radius": "0 0 50% 50%" })
+    $('.cat__head-dots_first').css({ "transform": "rotate(30deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "50% 0 50% 50%" })
+    $('.cat__head-dots_second').css({ "transform": "rotate(30deg)", "height": "35px", "width": "14px", "top": "1px", "border-radius": "0 50% 50% 50%" })
 }

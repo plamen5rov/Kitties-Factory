@@ -57,6 +57,10 @@ function renderCat(dna){
     $('#eyescolor').val(dna.eyesColor);
     earsColor(colors[dna.earsColor],dna.earsColor);
     $('#earscolor').val(dna.earsColor);
+    decorationMidcolor(colors[dna.decorationMidcolor],dna.decorationMidcolor);
+    $('#decorationMid').val(dna.decorationMidcolor);
+    decorationSidescolor(colors[dna.decorationSidescolor],dna.decorationSidescolor);
+    $('#decorationSides').val(dna.decorationSidescolor);
 }
 
 // Changing cat colors
@@ -87,4 +91,22 @@ $('#earscolor').change(()=>{
 $('#eyeshape').change(()=>{
   var shape = parseInt($('#eyeshape').val()) 
   eyeVariation(shape)
+})
+
+// Changing decoration shape
+$('#decorationPattern').change(()=>{
+  var shape = parseInt($('#decorationPattern').val()) 
+  decorationVariation(shape)
+})
+
+// Changing Mid Hair colors
+$('#decorationMid').change(()=>{
+  var colorVal = $('#decorationMid').val()
+  decorationMidcolor(colors[colorVal],colorVal)
+})
+
+// Changing Side Hair colors
+$('#decorationSides').change(()=>{
+  var colorVal = $('#decorationSides').val()
+  decorationSidescolor(colors[colorVal],colorVal)
 })
