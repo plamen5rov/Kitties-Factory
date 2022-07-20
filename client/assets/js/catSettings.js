@@ -119,3 +119,54 @@ $('#animation').change(() => {
   var animationVal = parseInt($('#animation').val())
   animationVariation(animationVal)
 })
+
+//Default button click 
+$('#defaultCatButton').click(() => {
+  renderCat(defaultDNA);
+})
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+//Random button click 
+$('#randomCatButton').click(() => {
+  colorVal = getRndInteger(10, 98);
+  $('#bodycolor').val(colorVal);
+  headColor(colors[colorVal], colorVal);
+
+  colorVal = getRndInteger(10, 98);
+  $('#mouthcolor').val(colorVal);
+  mouthColor(colors[colorVal], colorVal);
+
+  colorVal = getRndInteger(10, 98);
+  $('#eyecolor').val(colorVal);
+  eyeColor(colors[colorVal], colorVal);
+
+  colorVal = getRndInteger(10, 98);
+  $('#earcolor').val(colorVal);
+  earColor(colors[colorVal], colorVal);
+
+  // attributes
+
+  shape = getRndInteger(1, 7);
+  $('#eyeshape').val(shape);
+  eyeVariation(shape);
+
+  pattern = getRndInteger(1, 7);
+  $('#decorationpattern').val(pattern);
+  decorationVariation(pattern);
+
+  colorVal = getRndInteger(10, 98);
+  $('#decorationmid').val(colorVal);
+  decorationMidColor(colors[colorVal], colorVal);
+
+  colorVal = getRndInteger(10, 98);
+  $('#decorationsides').val(colorVal);
+  decorationSidesColor(colors[colorVal], colorVal);
+
+  animation = getRndInteger(1, 4);
+  $('#animation').val(animation);
+  animationVariation(animation);
+
+})
