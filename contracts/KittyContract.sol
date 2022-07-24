@@ -9,4 +9,23 @@ contract KittyContract is IERC721 {
     function balanceOf(address owner) external view returns (uint256 balance) {
         return ownershipTokenCount[owner];
     }
+
+    function totalSupply() external view returns (uint256 total) {
+        return total;
+    }
+
+    function name() external view returns (string memory tokenName) {
+        return tokenName;
+    }
+
+    function symbol() external view returns (string memory tokenSymbol) {
+        return tokenSymbol;
+    }
+
+    function ownerOf(uint256 tokenId) external view returns (address owner) {
+        require(tokenId);
+        return owner;
+    }
+
+    function transfer(address to, uint256 tokenId) external {}
 }
