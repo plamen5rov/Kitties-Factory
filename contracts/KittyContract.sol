@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 import "./IERC721.sol";
 
 contract KittyContract is IERC721 {
-    string public constant name = "CryptoKitties";
-    string public constant symbol = "CRK";
+    string public constant override name = "CryptoKitties";
+    string public constant override symbol = "CRK";
 
     struct Kitty {
         uint256 genes;
@@ -20,11 +20,16 @@ contract KittyContract is IERC721 {
     mapping(uint256 => address) public kittyIndexToOwner;
     mapping(address => uint256) ownershipTokenCount;
 
-    function balanceOf(address owner) external view returns (uint256 balance) {
+    function balanceOf(address owner)
+        external
+        view
+        override
+        returns (uint256 balance)
+    {
         return ownershipTokenCount[owner];
     }
 
-    function totalSupply() external view returns (uint256 total) {
+    function totalSupply() external view override returns (uint256 total) {
         return kitties.length;
     }
 
@@ -36,12 +41,17 @@ contract KittyContract is IERC721 {
     //     return symbol;
     // }
 
-    function ownerOf(uint256 _tokenId) external view returns (address owner) {
+    function ownerOf(uint256 _tokenId)
+        external
+        view
+        override
+        returns (address owner)
+    {
         //require(kittyIndexToOwner[_tokenId], "Token does not exist!");
         return kittyIndexToOwner[_tokenId];
     }
 
-    function transfer(address _to, uint256 _tokenId) external {
+    function transfer(address _to, uint256 _tokenId) external override {
         require(_to != address(0));
         require(_to != address(this));
         require(_owns(msg.sender, _tokenId));
