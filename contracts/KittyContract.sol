@@ -25,21 +25,52 @@ contract KittyContract is IERC721 {
     }
 
     function totalSupply() external view returns (uint256 total) {
-        return total;
+        return kitties.length;
     }
 
-    function name() external view returns (string memory tokenName) {
-        return tokenName;
+    // function name() external view returns (string memory tokenName) {
+    //     return name;
+    // }
+
+    // function symbol() external view returns (string memory tokenSymbol) {
+    //     return symbol;
+    // }
+
+    function ownerOf(uint256 _tokenId) external view returns (address owner) {
+        //require(kittyIndexToOwner[_tokenId], "Token does not exist!");
+        return kittyIndexToOwner[_tokenId];
     }
 
-    function symbol() external view returns (string memory tokenSymbol) {
-        return tokenSymbol;
+    function transfer(address _to, uint256 _tokenId) external {
+        require(_to != address(0));
+        require(_to != address(this));
+        require(_owns(msg.sender, _tokenId));
+
+        _transfer(msg.sender, _to, _tokenId);
     }
 
-    function ownerOf(uint256 tokenId) external view returns (address owner) {
-        require(tokenId);
-        return owner;
+    function _transfer(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) internal {
+        ownershipTokenCount[_to]++;
+
+        kittyIndexToOwner[_tokenId] = _to;
+
+        //Decrease owner's kitty balance - unless it's a newly minted kitty
+        if (_from != address(0)) {
+            ownershipTokenCount[_from]--;
+        }
+
+        emit Transfer(_from, _to, _tokenId);
     }
 
-    function transfer(address to, uint256 tokenId) external {}
+    function _owns(address _claimant, uint256 _tokenId)
+        internal
+        view
+        returns (bool)
+    {
+        return kittyIndexToOwner[_tokenId] == _claimant;
+    }
 }
