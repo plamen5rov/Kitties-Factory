@@ -210,7 +210,7 @@ function animationVariation(num) {
 function animation1() {
     $('#animationCode').html('None')
     $('#head').removeClass('movingHead')
-    $('#.cat__ear').removeClass('movingHead')
+    $('.cat__ear').removeClass('movingHead')
 
 }
 
