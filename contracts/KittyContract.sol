@@ -2,10 +2,12 @@
 pragma solidity ^0.8.0;
 
 import "./IERC721.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
-contract KittyContract is IERC721 {
+contract KittyContract is IERC721, Ownable {
     string public constant override name = "CryptoKitties";
     string public constant override symbol = "CRK";
+    uint256 public constant CREATION_LIMIT_GEN0 = 10;
 
     event Birth(
         address owner,
@@ -28,13 +30,28 @@ contract KittyContract is IERC721 {
     mapping(uint256 => address) public kittyIndexToOwner;
     mapping(address => uint256) ownershipTokenCount;
 
+    uint256 public gen0Counter;
+
+    function createKittyGen0(uint256 _genes)
+        public
+        onlyOwner
+        returns (uint256)
+    {
+        require(gen0Counter < CREATION_LIMIT_GEN0);
+
+        gen0Counter++;
+
+        //Gen0 have no owners, they are own by the contract
+        return _createKitty(0, 0, 0, _genes, msg.sender);
+    }
+
     function _createKitty(
         uint256 _mumID,
         uint256 _dadID,
         uint256 _generation,
         uint256 _genes,
         address _owner
-    ) public returns (uint256) {
+    ) private returns (uint256) {
         Kitty memory _kitty = Kitty({
             genes: _genes,
             birthTime: uint64(block.timestamp),
