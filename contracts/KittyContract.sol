@@ -7,6 +7,14 @@ contract KittyContract is IERC721 {
     string public constant override name = "CryptoKitties";
     string public constant override symbol = "CRK";
 
+    event Birth(
+        address owner,
+        uint256 kittenID,
+        uint256 mumID,
+        uint256 dadID,
+        uint256 genes
+    );
+
     struct Kitty {
         uint256 genes;
         uint64 birthTime;
@@ -19,6 +27,32 @@ contract KittyContract is IERC721 {
 
     mapping(uint256 => address) public kittyIndexToOwner;
     mapping(address => uint256) ownershipTokenCount;
+
+    function _createKitty(
+        uint256 _mumID,
+        uint256 _dadID,
+        uint256 _generation,
+        uint256 _genes,
+        address _owner
+    ) public returns (uint256) {
+        Kitty memory _kitty = Kitty({
+            genes: _genes,
+            birthTime: uint64(block.timestamp),
+            mumID: uint32(_mumID),
+            dadID: uint32(_dadID),
+            generation: uint16(_generation)
+        });
+
+        kitties.push(_kitty);
+
+        uint256 newKittenID = kitties.length - 1;
+
+        _transfer(address(0), _owner, newKittenID);
+
+        emit Birth(_owner, newKittenID, _mumID, _dadID, _genes);
+
+        return newKittenID;
+    }
 
     function balanceOf(address owner)
         external
