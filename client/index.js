@@ -11,13 +11,16 @@ $(document).ready(function () {
 
         //console.log(instance);
 
-        instance.methods.createKittyGen0(dnaStr).send({}, function (err, txHash) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(txHash);
-            }
-        });
+        function createKitty() {
+            var dnaStr = getDna();
+            instance.methods.createKittyGen0(dnaStr).send({}, function (err, txHash) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(txHash);
+                }
+            });
+        }
 
 
     });

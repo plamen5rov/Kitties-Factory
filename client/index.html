@@ -186,17 +186,20 @@
             </div>
             <div class="row">
                 <div align="left" class="col-lg-5 ButtonRaw m-3">
-                    <button type="button" class="btn btn-primary default btn-lg light-b-shadow"
-                        id="defaultCatButton">Default
+                    <button type="button" class="btn btn-primary default btn-lg light-b-shadow" id="defaultCatButton"
+                        onclick="defaultKitty()">Default
                         DNA</button>
-                    <button type="button" class="btn btn-warning random btn-lg light-b-shadow"
-                        id="randomCatButton">Random DNA</button>
+                    <button type="button" class="btn btn-warning random btn-lg light-b-shadow" id="randomCatButton"
+                        onclick="randomKitty()">Random DNA</button>
                 </div>
-                <div align="center" class="col-lg-4 ButtonRaw m-3">
+                <div align="right" class="col-lg-4 ButtonRaw m-3">
                     <button type="button" class="btn btn-success btn-lg btn-block createCatBtn light-b-shadow"
-                        id="createCatButton">CREATE</button>
+                        id="createCatButton" onclick="createKitty()">CREATE</button>
                 </div>
             </div>
+            <br>
+            <div class="alert alert-success" role="alert" id="kittyCreation" style="display: none"></div>
+
 
 
 
