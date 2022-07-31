@@ -29,6 +29,9 @@ contract KittyContract is IERC721, Ownable {
 
     mapping(uint256 => address) public kittyIndexToOwner;
     mapping(address => uint256) ownershipTokenCount;
+    mapping(uint256 => address) public kittyIndexToApprove;
+
+    mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     uint256 public gen0Counter;
 
