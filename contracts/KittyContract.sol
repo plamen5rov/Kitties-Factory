@@ -29,11 +29,39 @@ contract KittyContract is IERC721, Ownable {
 
     mapping(uint256 => address) public kittyIndexToOwner;
     mapping(address => uint256) ownershipTokenCount;
-    mapping(uint256 => address) public kittyIndexToApprove;
+    mapping(uint256 => address) public kittyIndexToApproved;
 
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     uint256 public gen0Counter;
+
+    function approve(address _approved, uint256 _tokenId) external {
+        require(_owns(msg.sender, _tokenId));
+
+        _approve(_tokenId, _to);
+        emit Approveal(msg.sender, _to, _tokenId);
+    }
+
+    function setApprovalforAll(address operator, bool approved) public {
+        require(operator != msg.sender);
+
+        _operatorApprovals[msg.sender][operator] = approved;
+        emit ApprovalForAll(msg.sender, operator, approved);
+    }
+
+    function getApproved(uint256 tokenId) public view returns (address) {
+        require(tokenId < kitties.length); //Token must exists
+
+        return kittyIndexToApproved[tokenId];
+    }
+
+    function isApprovedForAll(address owner, address operator)
+        public
+        view
+        returns (bool)
+    {
+        return _operatorApprovals[owner][operator];
+    }
 
     function getKitty(uint256 _id)
         external
@@ -145,6 +173,7 @@ contract KittyContract is IERC721, Ownable {
         //Decrease owner's kitty balance - unless it's a newly minted kitty
         if (_from != address(0)) {
             ownershipTokenCount[_from]--;
+            delete kittyIndexToApproved[_tokenId];
         }
 
         emit Transfer(_from, _to, _tokenId);
@@ -156,5 +185,30 @@ contract KittyContract is IERC721, Ownable {
         returns (bool)
     {
         return kittyIndexToOwner[_tokenId] == _claimant;
+    }
+
+    function _approve(uint256 _tokenId, address _approved) internal {
+        kittyIndexToApprove[_tokenId] = _approved;
+    }
+
+    function transferFrom(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) external {
+        require(
+            msg.sender == _from ||
+                msg.sender == tokenIdToApproved[_tokenId] ||
+                _operatorApprovals[_from][msg.sender],
+            "Only Owner, Operator or Approved Addresses can transfer!"
+        );
+        require(
+            _owns(_from, _tokenId),
+            "Owner address is not connected to this token!"
+        );
+        require(_to != address(0), "Transfer to zero-address is not possible!");
+        require(_tokenId < bears.length, "This token does not exist!");
+
+        _transfer(_from, _to, _tokenId);
     }
 }
