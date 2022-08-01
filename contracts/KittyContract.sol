@@ -191,23 +191,32 @@ contract KittyContract is IERC721, Ownable {
         kittyIndexToApprove[_tokenId] = _approved;
     }
 
+    function _approvedFor(address _claimant, uint256 _tokenId)
+        internal
+        view
+        returns (bool)
+    {
+        kittyIndexToApprove[_tokenId] = _claimant;
+    }
+
     function transferFrom(
         address _from,
         address _to,
         uint256 _tokenId
     ) external {
+        require(_to != address(0), "Transfer to zero-address is not possible!");
         require(
             msg.sender == _from ||
-                msg.sender == tokenIdToApproved[_tokenId] ||
-                _operatorApprovals[_from][msg.sender],
+                _approvedFor(msg.sender, _tokenId) ||
+                isApprovedForAll(_from, msg.sender),
             "Only Owner, Operator or Approved Addresses can transfer!"
         );
         require(
             _owns(_from, _tokenId),
             "Owner address is not connected to this token!"
         );
-        require(_to != address(0), "Transfer to zero-address is not possible!");
-        require(_tokenId < bears.length, "This token does not exist!");
+
+        require(_tokenId < kitties.length, "This token does not exist!");
 
         _transfer(_from, _to, _tokenId);
     }
