@@ -12,6 +12,9 @@ contract KittyContract is IERC721, Ownable {
     bytes4 private constant MAGIC_ERC721_RECIEVED =
         bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
 
+    bytes4 private constant _INTERFACE_ID_ERC721 = 0x80ac58cd;
+    bytes4 private constant _INTERFACE_ID_ERC165 = 0x01ffc9a7;
+
     event Birth(
         address owner,
         uint256 kittenID,
@@ -37,6 +40,15 @@ contract KittyContract is IERC721, Ownable {
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     uint256 public gen0Counter;
+
+    function supportsInterface(bytes4 _interfaceId)
+        external
+        view
+        returns (bool)
+    {
+        return (_interfaceId == _INTERFACE_ID_ERC165 ||
+            _interfaceId == _INTERFACE_ID_ERC721);
+    }
 
     function approve(address _to, uint256 _tokenId) external override {
         require(_owns(msg.sender, _tokenId));
@@ -208,7 +220,7 @@ contract KittyContract is IERC721, Ownable {
         view
         returns (bool)
     {
-        kittyIndexToApproved[_tokenId] == _claimant;
+        return kittyIndexToApproved[_tokenId] == _claimant;
     }
 
     function transferFrom(
