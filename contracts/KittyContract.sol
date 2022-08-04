@@ -216,19 +216,7 @@ contract KittyContract is IERC721, Ownable {
         address _to,
         uint256 _tokenId
     ) external override {
-        require(_to != address(0), "Transfer to zero-address is not possible!");
-        require(
-            msg.sender == _from ||
-                _approvedFor(msg.sender, _tokenId) ||
-                isApprovedForAll(_from, msg.sender),
-            "Only Owner, Operator or Approved Addresses can transfer!"
-        );
-        require(
-            _owns(_from, _tokenId),
-            "Owner address is not connected to this token!"
-        );
-
-        require(_tokenId < kitties.length, "This token does not exist!");
+        require(_isApprovedOrOwner(msg.sender, _from, _to, _tokenId));
 
         _transfer(_from, _to, _tokenId);
     }
@@ -275,30 +263,38 @@ contract KittyContract is IERC721, Ownable {
         return size > 0;
     }
 
-    //Last 2 functions
-    //safeTransferFrom ERC721 Specification, without data
+    //safeTransferFrom without data
     function safeTransferFrom(
         address _from,
         address _to,
         uint256 _tokenId
     ) public override {
-        require(_to != address(0));
-        require(_to != address(this));
-        require(_owns(msg.sender, _tokenId));
-
-        _safeTransfer(_from, _to, _tokenId, "0");
+        safeTransferFrom(_from, _to, _tokenId, "");
     }
 
+    //safeTransferFrom with data
     function safeTransferFrom(
         address _from,
         address _to,
         uint256 _tokenId,
-        bytes calldata _data
+        bytes memory _data
     ) public override {
+        require(_isApprovedOrOwner(msg.sender, _from, _to, _tokenId));
+        _safeTransfer(_from, _to, _tokenId, _data);
+    }
+
+    function _isApprovedOrOwner(
+        address _spender,
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) internal view returns (bool) {
+        require(_tokenId < kitties.length); //token must exist
         require(_to != address(0));
-        require(_to != address(this));
         require(_owns(msg.sender, _tokenId));
 
-        _safeTransfer(_from, _to, _tokenId, _data);
+        return (_spender == _from ||
+            _approvedFor(_spender, _tokenId) ||
+            isApprovedForAll(_from, _spender));
     }
 }
