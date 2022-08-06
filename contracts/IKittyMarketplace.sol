@@ -10,7 +10,7 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
  * Note: it does not inherit from the kitty contracts
  * Note: The contract needs to be an operator for everyone who is selling through this contract.
  */
-interface IKittyMarketPlace {
+interface IKittyMarketplace {
     event MarketTransaction(string TxType, address owner, uint256 tokenId);
 
     /**
