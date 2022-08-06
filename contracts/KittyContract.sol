@@ -41,6 +41,10 @@ contract KittyContract is IERC721, Ownable {
 
     uint256 public gen0Counter;
 
+    constructor() public {
+        _createKitty(0, 0, 0, type(uint256).max, address(0));
+    }
+
     function breed(uint256 _dadID, uint256 _mumID) public returns (uint256) {
         require(_owns(msg.sender, _dadID), "The user does NOT own the token!");
         require(_owns(msg.sender, _mumID), "The user does NOT own the token!");
