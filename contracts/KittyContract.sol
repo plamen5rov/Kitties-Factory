@@ -41,6 +41,30 @@ contract KittyContract is IERC721, Ownable {
 
     uint256 public gen0Counter;
 
+    function breed(uint256 _dadID, uint256 _mumID) public returns (uint256) {
+        require(_owns(msg.sender, _dadID), "The user does NOT own the token!");
+        require(_owns(msg.sender, _mumID), "The user does NOT own the token!");
+
+        (uint256 dadDNA, , , , uint256 dadGeneration) = getKitty(_dadID);
+        (uint256 mumDNA, , , , uint256 mumGeneration) = getKitty(_mumID);
+
+        uint256 newDNA = _mixDNA(dadDNA, mumDNA);
+
+        uint256 kidGen = 0;
+
+        if (dadGeneration < mumGeneration) {
+            kidGen = mumGeneration + 1;
+            kidGen /= 2;
+        } else if (dadGeneration > mumGeneration) {
+            kidGen = dadGeneration + 1;
+            kidGen /= 2;
+        } else {
+            kidGen = mumGeneration + 1;
+        }
+
+        _createKitty(_mumID, _dadID, kidGen, newDNA, msg.sender);
+    }
+
     function supportsInterface(bytes4 _interfaceId)
         external
         view
@@ -88,7 +112,7 @@ contract KittyContract is IERC721, Ownable {
     }
 
     function getKitty(uint256 _id)
-        external
+        public
         view
         returns (
             uint256 genes,
@@ -308,5 +332,17 @@ contract KittyContract is IERC721, Ownable {
         return (_spender == _from ||
             _approvedFor(_spender, _tokenId) ||
             isApprovedForAll(_from, _spender));
+    }
+
+    function _mixDNA(uint256 _dadDNA, uint256 _mumDNA)
+        internal
+        returns (uint256)
+    {
+        uint256 firstHalf = _dadDNA / 100000000;
+        uint256 secondHalf = _mumDNA % 100000000;
+
+        uint256 newDNA = firstHalf * 100000000 + secondHalf;
+
+        return newDNA;
     }
 }
